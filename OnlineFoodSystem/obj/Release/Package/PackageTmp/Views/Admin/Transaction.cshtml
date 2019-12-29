@@ -1,0 +1,136 @@
+﻿@model OnlineFoodSystem.Models.Admin.TranscationModel
+
+@{
+    if (Session["Email"] == null)
+    {
+        Response.Redirect("~/Account/Login");
+    }
+    ViewBag.Title = "Transaction";
+    Layout = "~/Views/Shared/AdminLayout/_LayoutAdmin.cshtml";
+    int count = 1;
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <input type="text" id="myInput1" class="form-control" onkeyup="myFunction1()" placeholder="Search By Total Amount.." title="Search by total amount">
+    </div>
+    <div class="col-md-6">
+
+        <input type="text" id="datepicker" onchange="myFunction()" class="form-control" placeholder="Search By Date.." title="Search by date">
+    </div>
+    @*<div class="col-md-2">
+        <label type="button" id="myInput" onclick="myFunction()" class="btn btn-primary"><i class="fa fa-search"></i></label>
+    </div>*@
+   
+</div>
+
+
+
+<div class="content" style="margin-top:10px;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Transactions</h4>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <table class="table" id="myTable">
+                            <thead class="text-primary">
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Transaction ID
+                            </th>
+                            <th>
+                                Customer Name
+                            </th>
+                            <th>
+                                Date Time
+                            </th>
+                            <th>
+                                Total Amount
+                            </th>
+
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Order)
+                                {
+                                    <tr>
+                                        <td>
+                                            @count
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TranscationId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.dateTime)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.totalPrice)
+                                        </td>
+
+                                    </tr>
+                                    count++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#transaction").addClass("active");
+    });
+    $(function () {
+        $("#datepicker").datepicker({
+            dateFormat: "dd/mm/yy"
+        });
+    });
+    function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("datepicker");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[3];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    function myFunction1() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput1");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[4];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+
+</script>

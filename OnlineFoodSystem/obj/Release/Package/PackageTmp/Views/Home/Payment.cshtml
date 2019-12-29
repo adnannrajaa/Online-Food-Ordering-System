@@ -1,0 +1,179 @@
+﻿
+@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/Home/_HomeLayout.cshtml";
+    if (Session["Email"] == null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+
+
+
+<div id="loader"></div>
+
+
+
+<!-- banner -->
+<div class="banner">
+   
+       
+    <div class="w3l_banner_nav_left">
+        @Html.Partial("Home/_NavAsidePartial")
+    </div>
+
+
+
+    <div class="w3l_banner_nav_right">
+        <div style="display:none;" id="myDiv" class="animate-bottom">
+            <h2>Thanks for Shopping!</h2>
+            <p>Your order will be delivered in 30 minutes.</p>
+        </div>
+        <!-- payment -->
+        <div class="privacy about">
+            <h3>Pay<span>ment</span></h3>
+
+            <div class="checkout-right">
+                <!--Horizontal Tab-->
+                <div id="parentHorizontalTab">
+                    <ul class="resp-tabs-list hor_1">
+                       
+                        <li>Credit/Debit</li>
+                       
+                    </ul>
+                    <div class="resp-tabs-container hor_1">
+
+                       
+                        <div>
+                            <form action="#" method="post" class="creditly-card-form agileinfo_form">
+                                <section class="creditly-wrapper wthree, w3_agileits_wrapper">
+                                    <div class="credit-card-wrapper">
+                                        <div class="first-row form-group">
+                                            <div class="controls">
+                                                <label class="control-label">Name on Card</label>
+                                                <input class="billing-address-name form-control" type="text" name="name" placeholder="John Smith : This Card is designed as template" disabled>
+                                            </div>
+                                            <div class="w3_agileits_card_number_grids">
+                                                <div class="w3_agileits_card_number_grid_left">
+                                                    <div class="controls">
+                                                        <label class="control-label">Card Number</label>
+                                                        <input class="number credit-card-number form-control" type="text" name="number"
+                                                               inputmode="numeric" autocomplete="cc-number" autocompletetype="cc-number" x-autocompletetype="cc-number"
+                                                               placeholder="&#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149;" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="w3_agileits_card_number_grid_right">
+                                                    <div class="controls">
+                                                        <label class="control-label">CVV</label>
+                                                        <input class="security-code form-control" Â·
+                                                               inputmode="numeric"
+                                                               type="text" name="security-code"
+                                                               placeholder="&#149;&#149;&#149;" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="clear"> </div>
+                                            </div>
+                                            <div class="controls">
+                                                <label class="control-label">Expiration Date</label>
+                                                <input class="expiration-month-and-year form-control" type="text" name="expiration-month-and-year" placeholder="MM / YY" disabled>
+                                            </div>
+                                        </div>
+                                        <button  type="button" class="submit" onclick="makePaymentAndSaveRecord()"><span>Make a payment </span></button>
+                                    </div>
+                                </section>
+                            </form>
+
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <!--Plug-in Initialisation-->
+                <!-- // Pay -->
+
+            </div>
+
+        </div>
+        <!-- //payment -->
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<!-- //banner -->
+<!-- js -->
+<script src="~/Templates/User/web/js/jquery-1.11.1.min.js"></script>
+<!-- easy-responsive-tabs -->
+<link rel="stylesheet" type="text/css" href="~/Templates/User/web/css/easy-responsive-tabs.css " />
+<script src="~/Templates/User/web/js/easyResponsiveTabs.js"></script>
+<!-- //easy-responsive-tabs -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        //Horizontal Tab
+        $('#parentHorizontalTab').easyResponsiveTabs({
+            type: 'default', //Types: default, vertical, accordion
+            width: 'auto', //auto or any width like 600px
+            fit: true, // 100% fit in a container
+            tabidentify: 'hor_1', // The tab groups identifier
+            activate: function(event) { // Callback function if tab is switched
+                var $tab = $(this);
+                var $info = $('#nested-tabInfo');
+                var $name = $('span', $info);
+                $name.text($tab.text());
+                $info.show();
+            }
+        });
+    });
+</script>
+<!-- credit-card -->
+    <script type="text/javascript" src="~/Templates/User/web/js/creditly.js"></script>
+    <link rel="stylesheet" href="~/Templates/User/web/css/creditly.css" type="text/css" media="all" />
+
+    @*<script type="text/javascript">
+                $(function() {
+                  var creditly = Creditly.initialize(
+                      '.creditly-wrapper .expiration-month-and-year',
+                      '.creditly-wrapper .credit-card-number',
+                      '.creditly-wrapper .security-code',
+                      '.creditly-wrapper .card-type');
+
+                  $(".creditly-card-form .submit").click(function(e) {
+                    e.preventDefault();
+                    var output = creditly.validate();
+                    if (output) {
+                      // Your validated credit card output
+                      console.log(output);
+                    }
+                  });
+                });
+    </script>*@
+    <!-- //credit-card -->
+    <!-- //js -->
+    <!-- script-for sticky-nav -->
+    <script>
+        $(document).ready(function() {
+             var navoffeset=$(".agileits_header").offset().top;
+             $(window).scroll(function(){
+                var scrollpos=$(window).scrollTop();
+                if(scrollpos >=navoffeset){
+                    $(".agileits_header").addClass("fixed");
+                }else{
+                    $(".agileits_header").removeClass("fixed");
+                }
+             });
+
+        });
+    </script>
+    <!-- //script-for sticky-nav -->
+
+    <script type="text/javascript" src="~/Templates/User/web/js/move-top.js"></script>
+    <script type="text/javascript" src="~/Templates/User/web/js/easing.js"></script>
+
+    <!-- start-smoth-scrolling -->
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Templates/User/web/js/bootstrap.min.js"></script>
+
+
+@{ var version = DateTime.Now.Millisecond;}
+@section scripts{
+<script src="~/CustomFiles/js/Home/make-payment.js?version=@version"></script>
+}

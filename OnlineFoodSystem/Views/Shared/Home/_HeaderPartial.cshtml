@@ -1,0 +1,81 @@
+﻿    <!-- header -->
+<div class="agileits_header">
+    <div class="w3l_offers">
+        <a onclick="loadItemsData()" class="button" style="cursor:pointer">Food Ordering System !</a>
+    </div>
+    <div class="w3l_search">
+
+    </div>
+    <div class="product_list_header">
+
+        <fieldset>
+            <input type="hidden" name="cmd" value="_cart" />
+            <input type="hidden" name="display" value="1" />
+            <input type="button" name="submit" onclick="ViewCart()" value="View your cart" class="button" />
+        </fieldset>
+    </div>
+    @if (Session["Email"] != null)
+    {
+        <div class="product_list_header">
+            <ul>
+                <li class="dropdown profile_details_drop">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user" aria-hidden="true">
+                            <span>
+                                @Convert.ToString(Session["Email"]).ToLower()
+                            </span>
+                        </i><span class="caret">
+                        </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" style="color:black;text-align:center" href="@Url.Action("CheckOut", "Home")">My Orders</a>
+                        <a class="dropdown-item" style="color:black;text-align:center" href="@Url.Action("SignOut", "Account")">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    }
+    else
+    {
+        <div class="w3l_header_right1">
+
+            <h2><a style="cursor:pointer" data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">Login</a></h2>
+        </div>
+    }
+    <div class="w3l_header_right1">
+        @if (Session["Email"] == null)
+        {
+            @*<h2 id="signupbtn"><a>Sign Up</a></h2>*@
+            <h2><a style="cursor:pointer" data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">Sign Up</a></h2>
+        }
+        else
+        {
+            <h2><a href="@Url.Action("Index","Home")">Home</a></h2>
+        }
+    </div>
+    <div class="clearfix"> </div>
+</div>
+<!-- script-for sticky-nav -->
+<script>
+    $(document).ready(function () {
+        var navoffeset = $(".agileits_header").offset().top;
+        $(window).scroll(function () {
+            var scrollpos = $(window).scrollTop();
+            if (scrollpos >= navoffeset) {
+                $(".agileits_header").addClass("fixed");
+            } else {
+                $(".agileits_header").removeClass("fixed");
+            }
+        });
+
+    });
+</script>
+<!-- //script-for sticky-nav -->
+<div class="logo_products">
+    <div class="container">
+
+        <div class="clearfix"> </div>
+    </div>
+</div>
+<!-- //header -->
+<!-- //fresh-vegetables -->

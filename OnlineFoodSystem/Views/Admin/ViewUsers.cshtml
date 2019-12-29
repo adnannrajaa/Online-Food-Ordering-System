@@ -1,0 +1,56 @@
+﻿
+@{
+    if (Session["Email"] == null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/AdminLayout/_LayoutAdmin.cshtml";
+}
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">All Users</h4>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <table class="table">
+                            <thead class="text-primary" id="tableData">
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        User Name
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                </tr>
+                                <tr id="dataRow" hidden>
+                                    <td id="no"></td>
+                                    <td id="userName"></td>
+                                    <td id="email" class="text-primary"></td>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@{ var version = DateTime.Now.Millisecond;}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#user").addClass("active");
+        });
+    </script>
+<script src="~/CustomFiles/js/Admin/users.js?version=@version"></script>
+}

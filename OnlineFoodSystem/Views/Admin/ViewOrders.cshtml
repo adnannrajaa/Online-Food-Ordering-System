@@ -1,0 +1,138 @@
+﻿@{
+    if (Session["Email"] == null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    ViewBag.Title = "Orders";
+    Layout = "~/Views/Shared/AdminLayout/_LayoutAdmin.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Orders</h4>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <table class="table" id="tableData">
+                            <thead class="text-primary">
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Customer Name
+                                    </th>
+                                    <th>
+                                        Placed At
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th>
+                                        Total Price
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                </tr>
+                                <tr hidden id="dataRow">
+                                    <td id="No"></td>
+                                    <td id="customer-name"></td>
+                                    <td id="date-time"></td>
+                                    <td id="status">
+                                        <label id="status-delivered" class="btn btn-primary" hidden>Delivered</label>
+                                        <label id="status-pending" class="btn btn-warning btn-default" hidden>Pending</label>
+                                    </td>
+                                    <td id="total-price"></td>
+                                    <td id="Action">
+                                        <div class="row">
+                                            <div id="details" class="col-md-3 col-3 text-right" title="Details">
+                                                <btn class="btn btn-sm btn-outline-success btn-icon"><i class="nc-icon nc-tile-56"></i></btn>
+                                            </div>
+
+                                            <div id="delivered" class="col-md-3 col-3 text-right" title="delivered" >
+                                                <btn class="btn btn-sm btn-outline-success btn-icon"><i class="nc-icon nc-check-2"></i></btn>
+                                            </div>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="order-details-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="myModalLabel">Order Detail</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table" id="order-detail-table">
+                    <thead class="text-primary">
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Quantity
+                            </th>
+                            <th>
+                                Price
+                            </th>
+                            <th>
+                                Image
+                            </th>
+                        </tr>
+                        <tr id="order-detail-dataRow" hidden>
+                            <td id="order-details-no"></td>
+                            <td id="order-details-name"></td>
+                            <td id="order-details-description"></td>
+                            <td id="order-details-quantity"></td>
+                            <td id="order-details-price"></td>
+                            <td>
+                                <img max-height=20  id="order-details-image"/>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id="order-details-tbody"></tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--    end modal -->
+
+
+
+@{ var version = DateTime.Now.Millisecond;}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#order").addClass("active");
+        });
+    </script>
+    <script src="~/CustomFiles/js/Admin/orders.js?version=@version"></script>
+}

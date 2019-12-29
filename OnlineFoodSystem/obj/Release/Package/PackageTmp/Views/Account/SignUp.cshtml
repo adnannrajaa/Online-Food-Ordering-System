@@ -1,0 +1,51 @@
+﻿@model OnlineFoodSystem.Models.Account.SignUpModel
+
+@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/Shared/Home/_HomeLayout.cshtml";
+}
+
+
+
+<!-- banner -->
+<div class="banner">
+
+    <div class="w3l_banner_nav_right">
+        <!-- login -->
+        <div class="w3_login">
+            <h3>Login Or Register</h3>
+            <div>
+                <div class="module form-module">
+                    <div class="toggle">
+                        <i class="fa fa-times fa-pencil"></i>
+                        <div class="tooltip">Register</div>
+                    </div>
+                    <div class="form" id="show-loginOrRegister">
+                        @Html.Partial("Home/_SignUpPartial")
+
+                    </div>
+                    <div class="form">
+                        @Html.Partial("Home/_SignInPartial")
+                    </div>
+                    <div class="cta"><a href="#"></a></div>
+                </div>
+            </div>
+            <script>
+				$('.toggle').click(function(){
+				  // Switches the Icon
+				  $(this).children('i').toggleClass('fa-pencil');
+				  // Switches the forms
+				  $('.form').animate({
+					height: "toggle",
+					'padding-top': 'toggle',
+					'padding-bottom': 'toggle',
+					opacity: "toggle"
+				  }, "slow");
+				});
+            </script>
+        </div>
+        <!-- //login -->
+    </div>
+    <div class="clearfix"></div>
+</div>
+<!-- //banner -->

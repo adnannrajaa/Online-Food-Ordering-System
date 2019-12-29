@@ -1,0 +1,74 @@
+﻿@{
+    if (Session["Email"] == null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    ViewBag.Title = "Transaction";
+    Layout = "~/Views/Shared/AdminLayout/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <input type="text" id="search-by-amount" class="form-control" placeholder="Search By Total Amount.." title="Search by total amount">
+    </div>
+    <div class="col-md-6">
+
+        <input type="text" id="search-by-date" class="form-control" placeholder="Search By Date.." title="Search by date">
+    </div>
+</div>
+
+<div class="content" style="margin-top:10px;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Transactions</h4>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <table class="table" id="tableData">
+                            <thead class="text-primary">
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Transaction ID
+                                    </th>
+                                    <th>
+                                        Customer Name
+                                    </th>
+                                    <th>
+                                        Date Time
+                                    </th>
+                                    <th>
+                                        Total Amount
+                                    </th>
+                                </tr>
+                                <tr id="dataRow" hidden>
+                                    <td id="no"></td>
+                                    <td id="trans-id"></td>
+                                    <td id="customer-name"></td>
+                                    <td id="date-time"></td>
+                                    <td id="total-amount"></td>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@{ var version = DateTime.Now.Millisecond;}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#transaction").addClass("active");
+        });
+    </script>
+    <script src="~/CustomFiles/js/Admin/transcation-data.js?version=@version"></script>
+}

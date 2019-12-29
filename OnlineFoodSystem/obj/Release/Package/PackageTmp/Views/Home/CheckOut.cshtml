@@ -1,0 +1,147 @@
+﻿@model OnlineFoodSystem.Models.Admin.OrderDetailModel
+@{
+    ViewBag.Title = "My Orders";
+    Layout = "~/Views/Shared/Home/_HomeLayout.cshtml";
+    if (Session["Email"] == null)
+    {
+        Response.Redirect("~/Account/Login");
+    }
+    int count = 1;
+    int count22 = 1;
+}
+
+<!-- //products-breadcrumb -->
+<!-- banner -->
+<div class="banner">
+    <div class="w3l_banner_nav_left">
+        @Html.Partial("Home/_NavAsidePartial")
+    </div>
+    <div class="w3l_banner_nav_right">
+        <!-- about -->
+        <div class="privacy about">
+            <h3>My Or<span>ders</span></h3>
+
+            <div class="checkout-right">
+                @if (Model.Order.Count() < 1)
+                {
+                    <h4>Your shopping contains: <span>No order</span></h4>
+                }
+                else if (Model.Order.Count() == 1)
+                {
+                    <h4>Your shopping contains: <span>@Model.Order.Count() order</span></h4>
+
+                }
+                else
+                {
+                    <h4>Your shopping contains: <span>@Model.Order.Count() orders</span></h4>
+
+                }
+                <table class="timetable_sub">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Order Detail</th>
+                            <th>Placed at</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Order)
+                        {
+                            <tr class="rem3">
+                                <td class="invert">@count</td>
+                                <td class="invert-image">
+                                    <label class="btn btn-primary" onclick="orderDetails(@item.orderId)" data-toggle="modal" data-target="#myModal">Order Detail</label>
+                                </td>
+                                <td class="invert">
+                                    @Html.DisplayFor(modelItem => item.dateTime)
+                                </td>
+                                <td class="invert">
+                                    Rs <span> @Html.DisplayFor(modelItem => item.totalPrice)</span>
+                                </td>
+
+                                <td class="invert">
+                                    @if (item.status == "Pending")
+                                    { <label>Pending</label>}
+                                    else
+                                    { <label> Delivered </label>}
+                                </td>
+
+                            </tr>
+                            count++;
+                        }
+
+                    </tbody>
+                </table>
+                <label id="totalAmountli" style="float:right">Total <i>-</i> <span>Rs @ViewBag.Amount</span></label>
+            </div>
+         
+
+        </div>
+        <!-- //about -->
+    </div>
+    <div class="clearfix"></div>
+</div>
+<!-- //banner -->
+
+
+<script src="~/Templates/User/web/js/jquery-1.11.1.min.js"></script>
+
+<div class="modal fade" id="order-details-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Order Detail</h4>
+               
+            </div>
+            <div class="modal-body">
+                <table class="table" id="order-detail-table">
+                    <thead class="text-primary">
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Quantity
+                            </th>
+                            <th>
+                                Price
+                            </th>
+                            <th>
+                                Image
+                            </th>
+                        </tr>
+                        <tr id="order-detail-dataRow" hidden>
+                            <td id="order-details-no"></td>
+                            <td id="order-details-name"></td>
+                            <td id="order-details-description"></td>
+                            <td id="order-details-quantity"></td>
+                            <td id="order-details-price"></td>
+                            <td>
+                                <img id="order-details-image" style="max-height:50px" />
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id="order-details-tbody"></tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@{ var version = DateTime.Now.Millisecond;}
+@section scripts{
+    <script src="~/CustomFiles/js/Admin/todays-order.js?version=@version"></script>
+}

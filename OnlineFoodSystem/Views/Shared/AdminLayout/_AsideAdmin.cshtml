@@ -1,0 +1,62 @@
+﻿<div class="sidebar" data-color="white" data-active-color="danger">
+    <!--
+        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+    -->
+    <div class="logo">
+        <a class="simple-text logo-normal">
+            <div class="logo-image-small">
+                
+                <img src="~/Templates/Admin/id.png" />
+            </div>
+        </a>
+       
+        <a href="@Url.Action("Index", "Admin")" class="simple-text logo-normal">
+           Food Ordering System
+            <!-- <div class="logo-image-big">
+              <img src="../assets/img/logo-big.png">
+            </div> -->
+        </a>
+    </div>
+    <div class="sidebar-wrapper">
+        <ul class="nav">
+            <li id="Dashboard222">
+                <a href="@Url.Action("Index", "Admin")">
+                    <i class="nc-icon nc-bank"></i>
+                    <p>Dashboard</p>
+                </a>
+            </li>
+            <li id="category">
+                <a href="@Url.Action("ViewCategory", "Admin")">
+                    <i class="nc-icon nc-vector"></i>
+                    <p>Category</p>
+                </a>
+            </li>
+            <li id="item">
+                <a href="@Url.Action("ViewItem", "Admin")">
+                    <i class="nc-icon nc-bullet-list-67"></i>
+                    <p>Items</p>
+                </a>
+            </li>
+            <li id="order">
+                <a href="@Url.Action("ViewOrders", "Admin")">
+                    <i class="nc-icon nc-cart-simple"></i>
+                    <p>Orders</p>
+                </a>
+            </li>
+            <li id="transaction">
+                <a href="@Url.Action("ViewTransaction", "Admin")">
+                    <i class="nc-icon nc-tile-56"></i>
+                    <p>Transactions</p>
+                </a>
+            </li>
+            <li id="user">
+                <a href="@Url.Action("ViewUsers", "Admin")">
+                    <i class="nc-icon nc-single-02"></i>
+                    <p>Users</p>
+                </a>
+            </li>
+           
+          
+        </ul>
+    </div>
+</div>

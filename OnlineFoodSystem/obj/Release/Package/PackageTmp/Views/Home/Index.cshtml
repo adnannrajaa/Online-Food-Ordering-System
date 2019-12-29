@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Home/_HomeLayout.cshtml";
+}
+
+
+<div class="banner">
+    <div class="w3l_banner_nav_left">
+        @Html.Partial("Home/_NavAsidePartial")
+    </div>
+    <div class="w3l_banner_nav_right">
+        @Html.Partial("Home/_NavPartial")
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<!--  Hot Offers-->
+<div class="top-brands">
+    <div class="container">
+        <h3 id="hot-offers-heading">Hot Offers</h3>
+        <div class="agile_top_brands_grids" id="hot-offers">
+               
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+<!-- Hot Offers -->
+
+
+<!-- Top Products -->
+<div class="fresh-vegetables" id="main-top-products">
+    <div class="container" >
+        <h3>Top Products</h3>
+        <div class="w3l_fresh_vegetables_grids" id="top-products">
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+
+
+@{ var version = DateTime.Now.Millisecond;}
+@section scripts{
+    <script src="~/CustomFiles/js/Home/index.js?version=@version"></script>
+@*<script src="~/CustomFiles/js/Home/add-to-cart.js?version=@version"></script>*@
+}
+
+<div class="col-md-3 top_brand_left" id="dataCard" hidden style="margin-bottom:20px;">
+    <div class="hover14 column">
+        <div class="agile_top_brand_left_grid">
+            <div class="tag"><img src="" class="img-responsive" /></div>
+            <div class="agile_top_brand_left_grid1">
+                <figure>
+                    <div class="snipcart-item block">
+                        <div class="snipcart-thumb">
+
+                            <img id="item-image" style="max-height:200px;" />
+
+                            <p id="item-name"></p>
+
+                            <h4 id="item-price"></h4>
+                        </div>
+                        <div class="snipcart-details top_brand_home_details">
+                            <fieldset>
+                                    <input type="button" id="add-to-cart-button" value="Add to cart" class="button add-to-cart" />
+                                </fieldset>
+                        </div>
+                    </div>
+                </figure>
+            </div>
+        </div>
+    </div>
+</div>

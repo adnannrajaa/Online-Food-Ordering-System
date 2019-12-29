@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="icon" type="image/png" href="~/AppFiles/Images/favicon.png">
+
+    <title>@ViewBag.Title - Food Ordering System</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <!-- CSS Files -->
+
+    <link href="~/Templates/Admin/assets/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="~/Templates/Admin/assets/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="~/Templates/Admin/assets/demo/demo.css" rel="stylesheet" />
+    <script src="~/Templates/Admin/assets/js/core/jquery.min.js"></script>
+   
+
+</head>
+<body class="">
+    <div class="wrapper ">
+
+        @Html.Partial("AdminLayout/_AsideAdmin")
+
+        <div class="main-panel">
+            <!-- Navbar -->
+            @Html.Partial("AdminLayout/_NavAdmin")
+            <!-- End Navbar -->
+            <!-- <div class="panel-header panel-header-lg">
+              <canvas id="bigDashboardChart"></canvas>
+            </div> -->
+            <div class="content">
+                @RenderBody()
+            </div>
+            @Html.Partial("AdminLayout/_FooterAdmin")
+
+
+        </div>
+    </div>
+    <!--   Core JS Files   -->
+    <script src="~/Templates/Admin/assets/js/core/jquery.min.js"></script>
+    <script src="~/Templates/Admin/assets/js/core/popper.min.js"></script>
+    <script src="~/Templates/Admin/assets/js/core/bootstrap.min.js"></script>
+    <script src="~/Templates/Admin/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <script src="~/Templates/Admin/assets/js/plugins/bootstrap-notify.js"></script>
+
+    <script src="~/scripts/jquery.validate.js"></script>
+    <script src="~/scripts/jquery.validate.unobtrusive.js"></script>
+    @RenderSection("scripts", required: false)
+
+   
+    <!--  Notifications Plugin    -->
+    <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="~/Templates/Admin/assets/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
+    <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+    <script src="~/Templates/Admin/assets/demo/demo.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/scripts/Scripts.js"></script>
+
+</body>
+</html>

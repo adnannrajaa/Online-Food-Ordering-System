@@ -1,0 +1,232 @@
+﻿@model OnlineFoodSystem.Models.Admin.ItemModel
+
+@{
+    if (Session["Email"] == null )
+    {
+        Response.Redirect("~/Account/Login");
+    }
+    ViewBag.Title = "Item";
+    Layout = "~/Views/Shared/AdminLayout/_LayoutAdmin.cshtml";
+    int count = 1;
+}
+
+<div class="row">
+    <div class="update ml-auto" style="margin-right:12px;">
+
+        <button type="submit" class="btn btn-primary btn-round" data-toggle="modal" data-target="#myModal"><i class="nc-icon nc-simple-add"> </i>  NEW ITEM</button>
+    </div>
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Food Items</h4>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <table class="table">
+                            <thead class="text-primary">
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Price
+                            </th>
+                            <th>
+                                Quantity
+                            </th>
+                            <th>
+                                Image
+                            </th>
+                            <th>
+                                Action
+                            </th>
+
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Itemss)
+                                {
+                                    <tr id=@("UpdateTr"+item.itemId) >
+                                        <td>
+                                            @count
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.price)
+                                        </td>
+
+                                        <td id=@("UpdateQuantity"+item.itemId)>
+                                            @Html.DisplayFor(modelItem => item.quantity)
+
+                                        </td>
+                                        <td>
+                                            <img src="@Url.Content(item.image)" alt="Image" width="80">
+                                        </td>
+
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-3 col-3 text-right" title="Delete">
+                                                    <button class="btn btn-sm btn-outline-danger btn-icon" onclick="Delete(@item.itemId)"><i class="nc-icon nc-simple-delete"></i></button>
+                                                </div>
+                                                <div class="col-md-3 col-3 text-right" id=@("EnableDisable"+item.itemId)>
+                                                    @if (item.isEnabled == true)
+                                                    {
+                                                        <button title="Disable" class="btn btn-sm btn-outline-warning btn-icon" onclick="EnableDisable(@item.itemId)"><i class="nc-icon nc-button-power"></i></button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button title="Enable" class="btn btn-sm btn-outline-success btn-icon" onclick="EnableDisable(@item.itemId)"><i class="nc-icon nc-button-power"></i></button>
+                                                    }
+                                                </div>
+                                                <div class="col-md-3 col-3 text-right" title="Edit">
+                                                    <button class="btn btn-sm btn-outline-info btn-icon"  data-toggle="modal" data-target="#myModal1" onclick="UpdateQuantity(@item.itemId,@item.price)"><i class="nc-icon nc-ruler-pencil"></i></button>
+                                                </div>
+                                            </div>
+                                        </td>
+
+
+                                    </tr>
+                                    count++;
+                                }
+                               
+                             
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@using (Html.BeginForm("Item", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="myModalLabel">Add Item</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                @Html.ValidationSummary(true,"", new { @class = "text-danger" })
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Select Category</label>
+                        @Html.DropDownList("catId", (IEnumerable<SelectListItem>)ViewData["Category"], "-- Select Category --", new { @class = "form-control", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.catId, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Name</label>
+                        @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Description</label>
+                        @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Price</label>
+                        @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control", @required = "required" , @type = "number" ,@min="0",@max = "10000" } })
+                        @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
+                      </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "form-control", @required = "required" , @type = "number", @min = "0", @max = "10000" } })
+                        @Html.ValidationMessageFor(model => model.quantity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Image</label>
+                       
+                    </div>
+                    <input type="file" name="ImageUpload" accept=".png, .jpg, .jpeg" onchange="VerifyImg(this)" required>
+                    @Html.Label("please select png, jpg, jpeg format", new { @class = "text-danger", @id = "Showerror" })
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <div class="left-side">
+                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
+                </div>
+                <div class="divider"></div>
+                <div class="right-side">
+                    <button type="submit" class="btn btn-success btn-simple">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--    end modal -->
+}
+
+
+    <!-- Modal -->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="myModalLabel">Update Price</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="number" min="0" class="form-control" id="Price" onchange="IsEmpty(this)" required/>
+                        <input type="number" min="0" class="form-control" id="ItemId" hidden />
+                       <div id="err"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="left-side">
+                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
+                </div>
+                <div class="divider"></div>
+                <div class="right-side">
+                    <button type="submit" class="btn btn-success btn-simple" onclick="EditPrice()" >Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--    end modal -->
+
+<script>
+    $(document).ready(function () {
+        $("#item").addClass("active");
+    });
+
+
+</script>

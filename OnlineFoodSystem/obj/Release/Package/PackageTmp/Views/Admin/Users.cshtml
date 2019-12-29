@@ -1,0 +1,73 @@
+﻿@model OnlineFoodSystem.Models.Admin.UserModel
+
+@{
+    if (Session["Email"] == null)
+    {
+        Response.Redirect("~/Account/Login");
+    }
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/AdminLayout/_LayoutAdmin.cshtml";
+    int Count = 1;
+}
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">All Users</h4>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <table class="table">
+                            <thead class="text-primary">
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                User Name
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Password
+                            </th>
+
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.User)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Count
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelitem => item.username)
+                                    </td>
+                                    <td class="text-primary">
+                                        @Html.DisplayFor(modelitem => item.email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelitem => item.password)
+                                    </td>
+
+                                </tr>
+                                    Count++;
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#user").addClass("active");
+    });
+
+
+</script>

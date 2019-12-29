@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FoodOrderDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="FoodOrderDbContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="FoodOrderDbModel.Category" />
+    <EntitySet Name="Orders" EntityType="FoodOrderDbModel.Order" />
+    <EntitySet Name="OrderDetails" EntityType="FoodOrderDbModel.OrderDetail" />
+    <EntitySet Name="Users" EntityType="FoodOrderDbModel.User" />
+    <AssociationSet Name="FK_Order_User" Association="FoodOrderDbModel.FK_Order_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Order" Association="FoodOrderDbModel.FK_OrderDetail_Order">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <EntitySet Name="FoodItems" EntityType="FoodOrderDbModel.FoodItem" />
+    <AssociationSet Name="FK_FoodItem_Category" Association="FoodOrderDbModel.FK_FoodItem_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="FoodItem" EntitySet="FoodItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_FoodItem" Association="FoodOrderDbModel.FK_OrderDetail_FoodItem">
+      <End Role="FoodItem" EntitySet="FoodItems" />
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="catId" />
+    </Key>
+    <Property Name="catId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="FoodItems" Relationship="FoodOrderDbModel.FK_FoodItem_Category" FromRole="Category" ToRole="FoodItem" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="orderId" />
+    </Key>
+    <Property Name="orderId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="dateTime" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="status" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Name="totalPrice" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Name="transId" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="User" Relationship="FoodOrderDbModel.FK_Order_User" FromRole="Order" ToRole="User" />
+    <NavigationProperty Name="OrderDetails" Relationship="FoodOrderDbModel.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
+  </EntityType>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="orderDetailId" />
+    </Key>
+    <Property Name="orderDetailId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="orderId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="itemId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="quantity" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Order" Relationship="FoodOrderDbModel.FK_OrderDetail_Order" FromRole="OrderDetail" ToRole="Order" />
+    <NavigationProperty Name="FoodItem" Relationship="FoodOrderDbModel.FK_OrderDetail_FoodItem" FromRole="OrderDetail" ToRole="FoodItem" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Name="userId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Orders" Relationship="FoodOrderDbModel.FK_Order_User" FromRole="User" ToRole="Order" />
+  </EntityType>
+  <Association Name="FK_Order_User">
+    <End Type="FoodOrderDbModel.User" Role="User" Multiplicity="1" />
+    <End Type="FoodOrderDbModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Order">
+    <End Type="FoodOrderDbModel.Order" Role="Order" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="FoodOrderDbModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="orderId" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="orderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="FoodItem">
+    <Key>
+      <PropertyRef Name="itemId" />
+    </Key>
+    <Property Name="itemId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="catId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Name="image" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="description" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="price" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Name="isEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="isDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="quantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Category" Relationship="FoodOrderDbModel.FK_FoodItem_Category" FromRole="FoodItem" ToRole="Category" />
+    <NavigationProperty Name="OrderDetails" Relationship="FoodOrderDbModel.FK_OrderDetail_FoodItem" FromRole="FoodItem" ToRole="OrderDetail" />
+  </EntityType>
+  <Association Name="FK_FoodItem_Category">
+    <End Type="FoodOrderDbModel.Category" Role="Category" Multiplicity="1" />
+    <End Type="FoodOrderDbModel.FoodItem" Role="FoodItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="catId" />
+      </Principal>
+      <Dependent Role="FoodItem">
+        <PropertyRef Name="catId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_FoodItem">
+    <End Type="FoodOrderDbModel.FoodItem" Role="FoodItem" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="FoodOrderDbModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FoodItem">
+        <PropertyRef Name="itemId" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="itemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "GetProducts";
+    Layout = "~/Views/Shared/Home/_HomeLayout.cshtml";
+}
+
+@model IEnumerable<OnlineFoodSystem.Models.DataBaseModel.FoodItem>
+
+@{
+    ViewBag.Title = "Products";
+    Layout = "~/Views/Shared/Home/_HomeLayout.cshtml";
+}
+<div class="banner">
+    <div class="w3l_banner_nav_left">
+        @Html.Partial("Home/_NavAsidePartial")
+    </div>
+    <div class="w3l_banner_nav_right">
+        @Html.Partial("Home/_NavPartial")
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<!-- top-brands -->
+<div class="top-brands">
+    <div class="container" id="filter-items-by-category">
+        <h3>@ViewBag.CatName</h3>
+        <div class="agile_top_brands_grids">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-3 top_brand_left" style="margin-top:10px;">
+                    <div class="hover14 column">
+                        <div class="agile_top_brand_left_grid">
+                            <div class="tag"><img src="" class="img-responsive" /></div>
+                            <div class="agile_top_brand_left_grid1">
+                                <figure>
+                                    <div class="snipcart-item block">
+                                        <div class="snipcart-thumb">
+                                            
+                                                <img src="@Url.Content(item.image)" style="max-height:200px;" />
+                                            
+                                            <p>@item.name</p>
+                                            <h4>Rs  @item.price</h4>
+                                        </div>
+                                        <div class="snipcart-details top_brand_home_details">
+                                            <fieldset>
+                                                <input type="button" data-name=@(item.name) data-price=@(item.price) value="Add to cart" class="button add-to-cart" />
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>

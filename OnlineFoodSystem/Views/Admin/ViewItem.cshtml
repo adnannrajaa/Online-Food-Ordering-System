@@ -1,0 +1,201 @@
+﻿@{
+    if (Session["Email"] == null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    ViewBag.Title = "Item";
+    Layout = "~/Views/Shared/AdminLayout/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="update ml-auto" style="margin-right:12px;">
+        <button type="submit" class="btn btn-primary btn-round" onclick="showItemModel()"><i class="nc-icon nc-simple-add"> </i>  NEW ITEM</button>
+    </div>
+</div>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Food Items</h4>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <table class="table" id="tableData">
+                            <thead class="text-primary">
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Description
+                                    </th>
+                                    <th>
+                                        Price
+                                    </th>
+                                    <th>
+                                        Quantity
+                                    </th>
+                                    <th>
+                                        Image
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                </tr>
+                                <tr hidden id="dataRow">
+                                    <td id="No"></td>
+                                    <td id="name"></td>
+                                    <td id="description"></td>
+                                    <td id="price"></td>
+                                    <td id="quantity"></td>
+                                    <td>
+                                        <img id="Image" alt="Image" width="80">
+                                    </td>
+                                    <td id="Action">
+                                        <div class="row">
+                                            <div id="delete-item" class="col-md-3 col-3 text-right" title="Delete">
+                                                <button class="btn btn-sm btn-outline-danger btn-icon"><i class="nc-icon nc-simple-delete"></i></button>
+                                            </div>
+                                            <div class="col-md-3 col-3 text-right">
+                                                <button id="disable" title="Disable" class="btn btn-sm btn-outline-warning btn-icon"><i class="nc-icon nc-button-power"></i></button>
+                                                <button id="enable" title="Enable" class="btn btn-sm btn-outline-success btn-icon"><i class="nc-icon nc-button-power"></i></button>
+                                            </div>
+                                            <div class="col-md-3 col-3 text-right" title="Edit">
+                                                <button id="edit" class="btn btn-sm btn-outline-info btn-icon"><i class="nc-icon nc-ruler-pencil"></i></button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Edit Price -->
+<div class="modal fade" id="editPriceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="myModalLabel">Update Price</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="number" class="form-control" id="Price" />
+                        <label id="show-error" style="color:red"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="left-side">
+                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
+                </div>
+                <div class="divider"></div>
+                <div class="right-side">
+                    <button id="edit-price" type="button" class="btn btn-primary btn-simple">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--    end modal Edit Price -->
+<!-- Modal Add New Item -->
+<div class="modal fade" id="addNewItemModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <form enctype="multipart/form-data" method="post" onSubmit="AddNewItem(this);">
+                <div class="modal-header">
+
+                    <h4 class="modal-title" id="myModalLabel">Add Item</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Select Category</label>
+                            <option id="dataOption" hidden></option>
+                            <select id="item-category" name="catId" class="form-control" style="margin-bottom:5px; color:black;">
+                                <option value="0">--Select Category--</option>
+                            </select>
+                            <label id="show-error-category" class="text-danger" hidden></label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="item-name" class="form-control" name="name" required/>
+                            <label id="show-error-name" class="text-danger" hidden></label>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input type="text" id="item-description" class="form-control" name="description" required/>
+                            <label id="show-error-description" class="text-danger" hidden></label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Price</label>
+                            <input type="number" id="item-price" class="form-control" name="price" required/>
+                            <label id="show-error-price" class="text-danger" hidden></label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input type="number" id="item-quantity" class="form-control" name="quantity"  required/>
+                            <label id="show-error-quantity" class="text-danger" hidden></label>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Image</label>
+                        </div>
+                        <input type="file" id="item-image" name="ImageUpload" accept=".png, .jpg, .jpeg" onchange="verifyImageFormat(this)" required> <br />
+                        <label id="show-error-ImageUpload" class="text-danger" hidden></label>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        <button type="button" id="savebutton" onclick="VerifyForm()" class="btn btn-primary btn-simple">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--    end modal Add New Item -->
+
+@{ var version = DateTime.Now.Millisecond;}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#item").addClass("active");
+        });
+    </script>
+    <script src="~/CustomFiles/js/Admin/food-item.js?version=@version"></script>
+}
